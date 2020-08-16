@@ -1,0 +1,40 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>인프런-끝말잇기</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>    <div id="app">
+        <div>끝말잇기시작: {{ word }}</div> 
+        <form v-on:submit="check_word">
+            <input type="text" v-model="myAnswer" ref="ans">&nbsp;&nbsp;
+            <input type="submit" value="끝말잇기">
+        </form>
+        <div> {{ result }}</div>
+    </div>
+</body>
+<script>    var app = new Vue({
+        el: '#app',
+        data: {
+            word: '안정화',
+            myAnswer: '',
+            result: ''
+        },
+        methods: {
+            check_word(e){
+                e.preventDefault();
+                if(this.word[this.word.length -1] === this.myAnswer[0]){
+                    this.result = "정답 ";
+                    this.word = this.myAnswer;
+                    this.myAnswer = '';
+                    this.$refs.ans.focus();
+                } else {
+                    this.result = "오답 ";
+                    this.myAnswer = ''
+                }
+            }
+        }
+    })
+</script>
+
+</html>

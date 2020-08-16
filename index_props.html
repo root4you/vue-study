@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>인프런-끝말잇기-component</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- vue에서는 kebab case로 선언해야함. -->
+        <word-relay start-Word="고등학교"></word-relay>
+        <hr>
+        <word-relay start-Word="양영"></word-relay>
+        <hr>
+        <word-relay start-Word="디지털"></word-relay>
+        <hr>
+</div>
+<script>
+// 컴포넌트는 작업을 반복할 수 있지만, 중복은 제거하는 방법
+//컴포넌트는 인스턴스보다 위, app id보다는 아래
+//전역 컴포넌트라고 부름 - 화면은 이미 정해져 있다. 데이터로 제어하는 것 뿐
+//컴포넌트에 차이를 주는 방법 : props -  부모에게 물려받는 값
+//html에서는 카멜케이스로
+    Vue.component('word-relay', { //wordRelay 해도 실행됨..
+        template: ` <div>
+        <div>끝말잇기시작: {{ word }}</div>
+        
+        <form v-on:submit="check_word">
+            <input type="text" v-model="myAnswer" ref="ans">&nbsp;&nbsp;
+            <input type="submit" value="끝말잇기">
+        </form>
+        <div> {{ result }}</div></div>
+        `,
+        props: ['startWord'],
+        data() {
+            return {
+            word: this.startWord,
+            myAnswer: '',
+            result: ''
+            };
+        },
+        methods: {
+            check_word(e) {
+                e.preventDefault();
+                if (this.word[this.word.length - 1] === this.myAnswer[0]) {
+                    this.result = "정답 ";
+                    this.word = this.myAnswer;
+                    this.myAnswer = '';
+                    this.$refs.ans.focus();
+                } else {
+                    this.result = "오답 ";
+                    this.myAnswer = ''
+                }
+            }
+        }
+    })
+</script>
+<script>
+   const app = new Vue({
+        el: '#app',
+    })
+</script>
+</body>
+</html>

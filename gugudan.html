@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>구구단</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+       <div>{{num1}} 곱하기 {{num2}} 는?</div>
+       <form @submit="checkResult">
+            <input type="number" ref="user_num" v-model="answer">&nbsp;&nbsp;
+            <input type="submit" value="확인">
+       <!-- <button>확인</button> -->
+    </form>
+    <hr>
+       <!-- <div>당신이 입력한 값은 {{answer}}</div> -->
+       <div>{{ result }}</div>
+    </div>
+</body>
+<script>
+    var app = new Vue({
+        el: "#app",
+        data: {
+            // Math.ceil는 반올림
+            num1: Math.ceil((Math.random()*8))+1,
+            num2: Math.ceil(Math.random()*9),
+            answer: '',
+            result: null
+        },
+        methods: {
+            checkResult(e){
+                // e.preventDefault();를 이용해서 새로고침을 잠시 멈춤
+                e.preventDefault();
+                if( parseInt(this.answer) === (this.num1*this.num2)){
+                    this.result = '정답'
+                    // this.num1 = Math.ceil((Math.random()*8))+1,
+                    // this.num2 = Math.ceil(Math.random()*9),
+                    // this.answer = ''
+                    this.resetGame()
+                    
+                } else {
+                    this.result = '다시 생각하세요...'
+                    this.answer = ''
+                    this.$refs.user_num.focus()
+                }
+            },
+            resetGame(){
+                this.num1 = Math.ceil((Math.random()*8))+1,
+                this.num2 = Math.ceil(Math.random()*9),
+                this.answer = '',
+                this.$refs.user_num.focus()
+
+            }
+        }
+    })
+</script>
+
+</html>
